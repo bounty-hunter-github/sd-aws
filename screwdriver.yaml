@@ -1,1 +1,39 @@
+shared:
+  image: 551964337302.dkr.ecr.us-west-2.amazonaws.com/sd-hub:ylinux7-7-current
 
+jobs:
+  setup:
+    requires: [~pr, ~commit]
+    steps:
+      - installtf: |
+          sudo yum install -y yum-utils
+          sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
+          sudo yum -y install terraform
+      - verifytf: terraform --version
+      - downloadfromartifacrtory: curl https://edge.artifactory.ouroath.com:4443/artifactory/screwdriver/sdawsintrtemplate
+  
+  build:
+    requires: [setup]
+    steps:
+      - setdir: cd lambda
+      - install: npm install
+      - zip: zip -r build.zip .
+  
+  deploy:
+    requires: [build]
+    steps:
+        - setdir: cd deploy 
+        - init: terraform init
+        - plan: terraform plan
+        - deploy: terraform apply
+            
+
+
+      # - installcli: |
+      #     curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+      #     unzip -q awscliv2.zip
+      #     sudo ./aws/install
+      # - verify: |
+      #     which aws
+      #     ls -l /usr/local/bin/aws
+      #     aws --version

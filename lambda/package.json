@@ -1,0 +1,19 @@
+{
+  "name": "sd-aws",
+  "version": "1.0.0",
+  "description": "Example repo for Screwdriver AWS Builds",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pritamstyz4ever/sd-aws.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pritamstyz4ever/sd-aws/issues"
+  },
+  "homepage": "https://github.com/pritamstyz4ever/sd-aws#readme"
+}
