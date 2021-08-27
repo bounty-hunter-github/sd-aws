@@ -1,5 +1,8 @@
 shared:
   image: 551964337302.dkr.ecr.us-west-2.amazonaws.com/sd-hub:ylinux7-7-current
+  annotations:
+    screwdriver.cd/executor: "sls"
+
 
 jobs:
   setup:
