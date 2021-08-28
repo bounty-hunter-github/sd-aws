@@ -1,20 +1,16 @@
 shared:
-  image: 551964337302.dkr.ecr.us-west-2.amazonaws.com/sd-hub:ylinux7-7-current
+  image: centos:centos7
   annotations:
     screwdriver.cd/executor: "sls"
-
-
 jobs:
   setup:
     requires: [~pr, ~commit]
     steps:
       - installtf: |
-          sudo yum-config-manager --enable epel
           sudo yum install -y yum-utils
           sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
           sudo yum -y install terraform
       - verifytf: terraform --version
-      - downloadfromartifacrtory: curl https://edge.artifactory.ouroath.com:4443/artifactory/screwdriver/sdawsintrtemplate
   
   build:
     requires: [setup]
