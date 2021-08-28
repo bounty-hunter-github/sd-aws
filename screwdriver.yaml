@@ -1,36 +1,25 @@
 shared:
-  image: centos:centos7
+  image: node:12
   annotations:
     screwdriver.cd/executor: "sls"
 jobs:
-  setupk8s:
-    requires: [~pr, ~commit]
-    annotations:
-      screwdriver.cd/executor: "k8s"
-    steps:
-      - installut: yum install -y yum-utils
-      - addrepo: yum-config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
-      - installtf: yum install -y terraform
-      - verifytf: terraform version 
-  setup:
-    requires: [~pr, ~commit]
-    steps:
-      - installtf: |
-          yum install -y yum-utils
-          yum-config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
-          yum install -y terraform
-      - verifytf: terraform version
-
   build:
-    requires: [setup]
+    requires: [~pr, ~commit]
     steps:
       - setdir: cd lambda
       - install: npm install
-      - zip: zip -r build.zip .
 
   deploy:
     requires: [build]
+    image: centos:centos7
     steps:
+      - installtf: |
+          yum install -y yum-utils 
+          yum install -y zip unzip 
+          yum-config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
+          yum install -y terraform
+      - verifytf: terraform version
+      - zippkg: cd lambda && zip -r build.zip .
       - setdir: cd deploy
       - init: terraform init
       - plan: terraform plan
