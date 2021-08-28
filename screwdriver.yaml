@@ -10,7 +10,7 @@ jobs:
     steps:
       - installut: yum install -y yum-utils
       - addrepo: yum-config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
-      - installtf: yum install terraform
+      - installtf: yum install -y terraform
       - verifytf: terraform –v
   setup:
     requires: [~pr, ~commit]
@@ -22,7 +22,7 @@ jobs:
       - installtf: |
           yum install -y yum-utils
           yum-config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
-          yum install terraform
+          yum install -y terraform
       - verifytf: terraform –v
 
   build:
