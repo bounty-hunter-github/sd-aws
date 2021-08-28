@@ -11,19 +11,15 @@ jobs:
       - installut: yum install -y yum-utils
       - addrepo: yum-config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
       - installtf: yum install -y terraform
-      - verifytf: terraform –v
+      - verifytf: terraform version 
   setup:
     requires: [~pr, ~commit]
     steps:
-      # yum update
-      # yum -y install wget unzip
-      # wget https://releases.hashicorp.com/terraform/0.12.2/terraform_0.12.2_linux_amd64.zip
-      # unzip ./terraform_0.12.2_linux_amd64.zip –d /usr/local/bin
       - installtf: |
           yum install -y yum-utils
           yum-config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
           yum install -y terraform
-      - verifytf: terraform –v
+      - verifytf: terraform version
 
   build:
     requires: [setup]
