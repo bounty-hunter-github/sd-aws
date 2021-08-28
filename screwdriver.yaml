@@ -8,10 +8,9 @@ jobs:
     annotations:
       screwdriver.cd/executor: "k8s"
     steps:
-      - installtf: |
-          yum install -y yum-utils
-          yum-config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
-          yum install terraform
+      - installut: yum install -y yum-utils
+      - addrepo: yum-config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
+      - installtf: yum install terraform
       - verifytf: terraform –v
   setup:
     requires: [~pr, ~commit]
