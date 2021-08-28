@@ -20,7 +20,7 @@ jobs:
           yum install -y terraform
       - verifytf: terraform version
       - zippkg: cd lambda && zip -r build.zip .
-      - setdir: cd deploy
+      - setdir: cd ../deploy/
       - init: terraform init
       - plan: terraform plan
       - deploy: terraform apply
