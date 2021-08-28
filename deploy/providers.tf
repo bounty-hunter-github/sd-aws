@@ -4,7 +4,7 @@ provider "aws" {
 
 terraform {
   backend "s3" {
-    bucket = "tf-sd-state-store"
+    bucket = "sd-cd-terraform-config-551964337302"
     key    = "sdawsintrfn"
     region = "us-west-2"
   }
