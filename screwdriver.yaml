@@ -15,7 +15,7 @@ jobs:
     steps:
       - installtf: |
           yum install -y yum-utils 
-          yum install -y zip unzip 
+          yum install -y zip unzip git
           yum-config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
           yum install -y terraform
       - verifytf: terraform version
