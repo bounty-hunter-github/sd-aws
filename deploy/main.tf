@@ -30,7 +30,6 @@ resource "aws_lb_target_group" "sd_aws_intg_tg" {
 }
 
 resource "aws_lb_target_group_attachment" "sd_aws_intg_tgat" {
-  depends_on = [module.lambda_function]
   target_group_arn = aws_lb_target_group.sd_aws_intg_tg.arn
   target_id        = aws_lambda_function.sd_aws_intg_tg.arn
   depends_on       = [aws_lambda_permission.with_lb]

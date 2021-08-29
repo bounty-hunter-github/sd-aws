@@ -19,7 +19,7 @@ jobs:
           yum-config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
           yum install -y terraform
       - verifytf: terraform version
-      - zippkg: cd lambda && zip -r build.zip .
+      - zippkg: cd lambda && zip -r build.zip . && cp build.zip $SD_ARTIFACTS_DIR/pkg
       - setdir: cd ../deploy/
       - init: terraform init
       - plan: terraform plan
