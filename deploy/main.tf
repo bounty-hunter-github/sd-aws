@@ -7,7 +7,7 @@ module "lambda_function" {
   runtime       = "nodejs12.x"
   create_package = false
   local_existing_package = "../lambda/build.zip"
-  source_path = "../lambda"
+  source_path = "../lambda/"
 
   tags = {
     Name = "sd-aws-intg-fn"
@@ -31,7 +31,7 @@ resource "aws_lb_target_group" "sd_aws_intg_tg" {
 
 resource "aws_lb_target_group_attachment" "sd_aws_intg_tgat" {
   target_group_arn = aws_lb_target_group.sd_aws_intg_tg.arn
-  target_id        = aws_lambda_function.sd_aws_intg_tg.arn
+  target_id        = module.lambda_function.lambda_function_arn
   depends_on       = [aws_lambda_permission.with_lb]
 }
 
