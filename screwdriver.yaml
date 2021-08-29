@@ -7,12 +7,17 @@ jobs:
     requires: [~pr, ~commit]
     steps:
       - installtf: |
+          yum update
           yum install -y yum-utils 
-          yum install -y zip unzip git
+          yum install -y zip unzip git curl gcc g++ make
+          curl -sL https://rpm.nodesource.com/setup_10.x | bash -
           yum install -y nodejs npm
           yum-config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
           yum install -y terraform
-      - verifytf: terraform version
+      - verify: | 
+          terraform version
+          node –version
+          npm –version
       - setdir1: cd lambda
       - installapp: npm install
       - pkg: zip -r build.zip .
