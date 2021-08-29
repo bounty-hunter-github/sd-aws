@@ -1,29 +1,23 @@
 shared:
-  image: node:12
+  image: centos:centos7
   annotations:
     screwdriver.cd/executor: "sls"
 jobs:
-  build:
+  deployapp:
     requires: [~pr, ~commit]
-    steps:
-      - installzip: apt-get update && apt-get install -y zip unzip
-      - setdir: cd lambda
-      - install: npm install
-      - pkg: zip -r build.zip .
-      - copy: cp build.zip $SD_ARTIFACTS_DIR/
-
-  deploy:
-    requires: [build]
-    image: centos:centos7
     steps:
       - installtf: |
           yum install -y yum-utils 
           yum install -y zip unzip git
+          yum install -y nodejs npm --enablerepo=epel
           yum-config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
           yum install -y terraform
       - verifytf: terraform version
-      - zippkg: cd lambda && cp $SD_ARTIFACTS_DIR/build.zip .
-      - setdir: cd ../deploy/
+      - setdir1: cd lambda
+      - install: npm install
+      - pkg: zip -r build.zip .
+      - copy: cp build.zip $SD_ARTIFACTS_DIR/
+      - setdir2: cd ../deploy/
       - init: terraform init
       - plan: terraform plan
       - deploy: terraform apply -auto-approve
