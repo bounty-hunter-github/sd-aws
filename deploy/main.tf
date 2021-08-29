@@ -15,6 +15,7 @@ module "lambda_function" {
 }
 
 resource "aws_lambda_permission" "with_lb" {
+  depends_on = [module.lambda_function]
   statement_id  = "AllowExecutionFromlb"
   action        = "lambda:InvokeFunction"
   function_name = module.lambda_function.arn
@@ -23,17 +24,20 @@ resource "aws_lambda_permission" "with_lb" {
 }
 
 resource "aws_lb_target_group" "sd_aws_intg_tg" {
+  depends_on = [module.lambda_function]
   name        = "sd-aws-intg-tg"
   target_type = "lambda"
 }
 
 resource "aws_lb_target_group_attachment" "sd_aws_intg_tgat" {
+  depends_on = [module.lambda_function]
   target_group_arn = aws_lb_target_group.sd_aws_intg_tg.arn
   target_id        = aws_lambda_function.sd_aws_intg_tg.arn
   depends_on       = [aws_lambda_permission.with_lb]
 }
 
 resource "aws_lb" "sd_aws_intg_lb" {
+  depends_on = [module.lambda_function]
   name               = "sd-aws-intg-lb"
   internal           = false
   load_balancer_type = "application"
