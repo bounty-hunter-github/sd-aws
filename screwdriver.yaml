@@ -9,12 +9,12 @@ jobs:
       - installtf: |
           yum install -y yum-utils 
           yum install -y zip unzip git
-          yum install -y nodejs npm --enablerepo=epel
+          yum install -y nodejs npm
           yum-config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
           yum install -y terraform
       - verifytf: terraform version
       - setdir1: cd lambda
-      - install: npm install
+      - installapp: npm install
       - pkg: zip -r build.zip .
       - copy: cp build.zip $SD_ARTIFACTS_DIR/
       - setdir2: cd ../deploy/
