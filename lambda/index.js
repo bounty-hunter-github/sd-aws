@@ -4,7 +4,7 @@ exports.handler = async (event) => {
     const response = {
         statusCode: 200,
         statusDescription: "200 OK",
-        isBase64Encoded: False,
+        isBase64Encoded: false,
         headers: {
             "Content-Type": "text/html"
         },

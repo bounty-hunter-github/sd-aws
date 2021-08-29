@@ -13,7 +13,7 @@ jobs:
           yum update -y
           yum install -y yum-utils 
           yum install -y zip unzip git curl gcc g++ make
-          curl -sL https://rpm.nodesource.com/setup_10.x | bash -
+          curl -sL https://rpm.nodesource.com/setup_12.x | bash -
           yum install -y nodejs npm
           yum-config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
           yum install -y terraform
