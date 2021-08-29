@@ -23,7 +23,7 @@ jobs:
       - setdir: cd ../deploy/
       - init: terraform init
       - plan: terraform plan
-      - deploy: terraform apply
+      - deploy: terraform apply -auto-approve
       # - installcli: |
       #     curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
       #     unzip -q awscliv2.zip
