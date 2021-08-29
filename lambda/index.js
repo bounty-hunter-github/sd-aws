@@ -8,7 +8,8 @@ exports.handler = async (event) => {
         headers: {
             "Content-Type": "text/html"
         },
-        body: "<html><h1 color='red'>Hello from Screwdriver AWS Integration Lambda!</h1></html>"
+        body: `<html><body style='background-color:powderblue;'><h1>Screwdriver AWS Integration Lambda!</h1>` +
+        `<p style='background-color:tomato;'>This app is deployed using Screwdriver and Codebuild.</p></body></html>`
     };
     return response;
 };
