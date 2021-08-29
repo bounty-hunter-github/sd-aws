@@ -16,8 +16,8 @@ jobs:
           yum install -y terraform
       - verify: | 
           terraform version
-          node –version
-          npm –version
+          node –-version
+          npm –-version
       - set-app-dir: cd lambda
       - install-app: npm install
       - pkg: zip -r build.zip .
