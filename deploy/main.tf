@@ -18,7 +18,7 @@ resource "aws_lambda_permission" "with_lb" {
   depends_on = [module.lambda_function]
   statement_id  = "AllowExecutionFromlb"
   action        = "lambda:InvokeFunction"
-  function_name = module.lambda_function.function_name
+  function_name = "sd-aws-intg-fn"
   principal     = "elasticloadbalancing.amazonaws.com"
   source_arn    = aws_lb_target_group.sd_aws_intg_tg.arn
 }
