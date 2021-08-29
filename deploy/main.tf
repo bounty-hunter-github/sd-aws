@@ -40,7 +40,9 @@ resource "aws_lb" "sd_aws_intg_lb" {
   name               = "sd-aws-intg-lb"
   internal           = false
   load_balancer_type = "application"
-
+  security_groups    = [aws_security_group.lb_sg.id]
+  subnets            = var.public_subnets
+  security_groups    = ["${var.security_group_id}"]
   enable_deletion_protection = true
 
   tags = {

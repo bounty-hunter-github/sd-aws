@@ -5,6 +5,9 @@ shared:
 jobs:
   deployapp:
     requires: [~pr, ~commit]
+    environment:
+      PUBLIC_SUBNETS: ["subnet-01ee62bdf3b2080ee", "subnet-01ac2521077bcf194"]
+      SECURITY_GROUP_ID : "sg-0fcf79949490e0599"
     steps:
       - install-dep: |
           yum update -y
@@ -23,7 +26,11 @@ jobs:
       - pkg: zip -r build.zip .
       - copy: cp build.zip $SD_ARTIFACTS_DIR/
       - set-deploy-dir: cd ../deploy/
-      - init: terraform init
+      - init: |
+          echo security_group_id=$SECURITY_GROUP_ID > app.tfvars
+          echo public_subnets=$PUBLIC_SUBNETS >> app.tfvars
+          cat app.tfvars
+          terraform init
       - plan: terraform plan
       - deploy: terraform apply -auto-approve
       # - installcli: |
