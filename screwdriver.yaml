@@ -6,8 +6,11 @@ jobs:
   build:
     requires: [~pr, ~commit]
     steps:
+      - installzip: apt-get update && apt-get install -y zip unzip
       - setdir: cd lambda
       - install: npm install
+      - pkg: zip -r build.zip .
+      - copy: cp build.zip $SD_ARTIFACTS_DIR/pkg/
 
   deploy:
     requires: [build]
@@ -19,7 +22,7 @@ jobs:
           yum-config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
           yum install -y terraform
       - verifytf: terraform version
-      - zippkg: cd lambda && zip -r build.zip . && cp build.zip $SD_ARTIFACTS_DIR/pkg
+      - zippkg: cd lambda && cp $SD_ARTIFACTS_DIR/pkg/build.zip .
       - setdir: cd ../deploy/
       - init: terraform init
       - plan: terraform plan
