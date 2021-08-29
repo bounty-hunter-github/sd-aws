@@ -6,8 +6,8 @@ jobs:
   deployapp:
     requires: [~pr, ~commit]
     steps:
-      - installtf: |
-          yum update
+      - install-dep: |
+          yum update -y
           yum install -y yum-utils 
           yum install -y zip unzip git curl gcc g++ make
           curl -sL https://rpm.nodesource.com/setup_10.x | bash -
@@ -18,11 +18,11 @@ jobs:
           terraform version
           node –version
           npm –version
-      - setdir1: cd lambda
-      - installapp: npm install
+      - set-app-dir: cd lambda
+      - install-app: npm install
       - pkg: zip -r build.zip .
       - copy: cp build.zip $SD_ARTIFACTS_DIR/
-      - setdir2: cd ../deploy/
+      - set-deploy-dir: cd ../deploy/
       - init: terraform init
       - plan: terraform plan
       - deploy: terraform apply -auto-approve
