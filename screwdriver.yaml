@@ -27,7 +27,7 @@ jobs:
       - copy: cp build.zip $SD_ARTIFACTS_DIR/
       - set-deploy-dir: cd ../deploy/
       - init: |
-          echo security_group_id=$SECURITY_GROUP_ID > app.tfvars
+          echo "security_group_id=\"$SECURITY_GROUP_ID\"" > app.tfvars
           echo public_subnets=$PUBLIC_SUBNETS >> app.tfvars
           cat app.tfvars
           terraform init
