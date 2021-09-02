@@ -2,9 +2,9 @@ shared:
   image: centos:centos7
 jobs:
   deployappsls:
+    requires: [~pr, ~commit]
     annotations:
       screwdriver.cd/executor: "sls"
-    requires: [~pr, ~commit]
     environment:
       PUBLIC_SUBNETS: ["subnet-01ee62bdf3b2080ee", "subnet-01ac2521077bcf194"]
       SECURITY_GROUP_ID: "sg-0fcf79949490e0599"
@@ -32,7 +32,7 @@ jobs:
       - init: |
           echo "security_group_id=\"$SECURITY_GROUP_ID\"" > app.tfvars
           echo public_subnets=$PUBLIC_SUBNETS >> app.tfvars
-          echo resource_prefix=$RESOURCE_REFIX >> app.tfvars
+          echo "resource_prefix=\"$RESOURCE_REFIX\"" >> app.tfvars
           cat app.tfvars
           terraform init
       - plan: terraform plan -var-file=app.tfvars
@@ -46,9 +46,9 @@ jobs:
       #     ls -l /usr/local/bin/aws
       #     aws --version
   deployappeks:
+    requires: [~pr, ~commit]
     annotations:
       screwdriver.cd/executor: "eks"
-    requires: [~pr, ~commit]
     environment:
       PUBLIC_SUBNETS: ["subnet-01ee62bdf3b2080ee", "subnet-01ac2521077bcf194"]
       SECURITY_GROUP_ID: "sg-0fcf79949490e0599"
@@ -76,7 +76,7 @@ jobs:
       - init: |
           echo "security_group_id=\"$SECURITY_GROUP_ID\"" > app.tfvars
           echo public_subnets=$PUBLIC_SUBNETS >> app.tfvars
-          echo resource_prefix=$RESOURCE_REFIX >> app.tfvars
+          echo "resource_prefix=\"$RESOURCE_REFIX\"" >> app.tfvars
           cat app.tfvars
           terraform init
       - plan: terraform plan -var-file=app.tfvars
