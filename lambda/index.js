@@ -10,7 +10,7 @@ exports.handler = async (event) => {
         headers: {
             "Content-Type": "text/html"
         },
-        body: `<html><body style='background-color:${code};'><h1>Screwdriver AWS Integration Lambda Demo!</h1>` +
+        body: `<html><style>body{background-image: url('./Yahoo.png');}</style><body><h1>Screwdriver AWS Integration Lambda Demo!</h1>` +
         `<p style='background-color:tomato;'>This app is deployed using Screwdriver and AWS ${executor}.</p></body></html>`
     };
     return response;
