@@ -8,6 +8,9 @@ module "lambda_function" {
   create_package = false
   local_existing_package = "../lambda/build.zip"
   source_path = "../lambda/"
+  environment_variables = {
+    "EXECUTOR" = "${var.executor}"
+  }
 
   tags = {
     Name = "${var.resource_prefix}-fn"

@@ -12,3 +12,7 @@ variable "resource_prefix" {
    type = string
     description = "Name prefix for resource"
 }
+
+variable "executor" {
+   type = string
+}

@@ -33,6 +33,7 @@ jobs:
           echo "security_group_id=\"$SECURITY_GROUP_ID\"" > app.tfvars
           echo public_subnets=$PUBLIC_SUBNETS >> app.tfvars
           echo "resource_prefix=\"$RESOURCE_REFIX\"" >> app.tfvars
+          echo "executor=\"$EXECUTOR\"" >> app.tfvars
           cat app.tfvars
           terraform init
       - plan: terraform plan -var-file=app.tfvars
@@ -77,6 +78,7 @@ jobs:
           echo "security_group_id=\"$SECURITY_GROUP_ID\"" > app.tfvars
           echo public_subnets=$PUBLIC_SUBNETS >> app.tfvars
           echo "resource_prefix=\"$RESOURCE_REFIX\"" >> app.tfvars
+          echo "executor=\"$EXECUTOR\"" >> app.tfvars
           cat app.tfvars
           terraform init
       - plan: terraform plan -var-file=app.tfvars
