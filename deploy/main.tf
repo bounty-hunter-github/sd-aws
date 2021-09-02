@@ -1,7 +1,7 @@
 module "lambda_function" {
   source = "terraform-aws-modules/lambda/aws"
 
-  function_name = "sd-aws-intg-fn"
+  function_name = "${var.resource_prefix}-fn"
   description   = "Screwdriver AWS Integration Demo"
   handler       = "index.handler"
   runtime       = "nodejs12.x"
@@ -10,7 +10,7 @@ module "lambda_function" {
   source_path = "../lambda/"
 
   tags = {
-    Name = "sd-aws-intg-fn"
+    Name = "${var.resource_prefix}-fn"
   }
 }
 
@@ -18,14 +18,14 @@ resource "aws_lambda_permission" "with_lb" {
   depends_on = [module.lambda_function]
   statement_id  = "AllowExecutionFromlb"
   action        = "lambda:InvokeFunction"
-  function_name = "sd-aws-intg-fn"
+  function_name = "${var.resource_prefix}-fn"
   principal     = "elasticloadbalancing.amazonaws.com"
   source_arn    = aws_lb_target_group.sd_aws_intg_tg.arn
 }
 
 resource "aws_lb_target_group" "sd_aws_intg_tg" {
   depends_on = [module.lambda_function]
-  name        = "sd-aws-intg-tg"
+  name        = "${var.resource_prefix}-tg"
   target_type = "lambda"
 }
 
@@ -37,7 +37,7 @@ resource "aws_lb_target_group_attachment" "sd_aws_intg_tgat" {
 
 resource "aws_lb" "sd_aws_intg_lb" {
   depends_on = [module.lambda_function]
-  name               = "sd-aws-intg-lb"
+  name               = "${var.resource_prefix}-lb"
   internal           = false
   load_balancer_type = "application"
   subnets            = var.public_subnets
@@ -45,7 +45,7 @@ resource "aws_lb" "sd_aws_intg_lb" {
   enable_deletion_protection = true
 
   tags = {
-    Name = "sd-aws-intg-alb"
+    Name = "${var.resource_prefix}-nlb"
   }
 }
 
