@@ -6,8 +6,8 @@ jobs:
     annotations:
       screwdriver.cd/executor: "sls"
     environment:
-      PUBLIC_SUBNETS: ["subnet-01ee62bdf3b2080ee", "subnet-01ac2521077bcf194"]
-      SECURITY_GROUP_ID: "sg-0fcf79949490e0599"
+      PUBLIC_SUBNETS: ["subnet-yyy", "subnet-xxx"]
+      SECURITY_GROUP_ID: "sg-zzz"
       RESOURCE_REFIX: sd-aws-intg
       EXECUTOR: "Code Build"
       BG_COLOR: "powderblue"
@@ -51,8 +51,8 @@ jobs:
     annotations:
       screwdriver.cd/executor: "eks"
     environment:
-      PUBLIC_SUBNETS: ["subnet-01ee62bdf3b2080ee", "subnet-01ac2521077bcf194"]
-      SECURITY_GROUP_ID: "sg-0fcf79949490e0599"
+      PUBLIC_SUBNETS: ["subnet-yyy", "subnet-xxx"]
+      SECURITY_GROUP_ID: "sg-zzz"
       RESOURCE_REFIX: sd-eks-intg
       EXECUTOR: "Elastic Kubernetes Service"
       BG_COLOR: "powder-blue"
