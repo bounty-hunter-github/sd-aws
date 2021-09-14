@@ -6,11 +6,12 @@ jobs:
     annotations:
       screwdriver.cd/executor: "sls"
     environment:
-      PUBLIC_SUBNETS: ["subnet-yyy", "subnet-xxx"]
-      SECURITY_GROUP_ID: "sg-zzz"
       RESOURCE_REFIX: sd-aws-intg
       EXECUTOR: "Code Build"
       BG_COLOR: "powderblue"
+    secrets:
+      - PUBLIC_SUBNETS
+      - SECURITY_GROUP_ID
     steps:
       - install-dep: |
           yum update -y
@@ -51,11 +52,12 @@ jobs:
     annotations:
       screwdriver.cd/executor: "eks"
     environment:
-      PUBLIC_SUBNETS: ["subnet-yyy", "subnet-xxx"]
-      SECURITY_GROUP_ID: "sg-zzz"
       RESOURCE_REFIX: sd-eks-intg
       EXECUTOR: "Elastic Kubernetes Service"
       BG_COLOR: "powder-blue"
+    secrets:
+      - PUBLIC_SUBNETS
+      - SECURITY_GROUP_ID
     steps:
       - install-dep: |
           yum update -y
