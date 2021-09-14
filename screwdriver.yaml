@@ -1,5 +1,5 @@
 shared:
-  image: centos:centos7
+  image: 551964337302.dkr.ecr.us-west-2.amazonaws.com/sd-hub:centos7
 jobs:
   deployappsls:
     requires: [~pr, ~commit]
