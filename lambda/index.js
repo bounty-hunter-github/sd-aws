@@ -3,9 +3,9 @@ exports.handler = async (event) => {
     const executor = process.env.EXECUTOR;
     const html = `
 <html>
-<body style="background-color:#6001d2;">
+<body style="background-color:#ffa700;">
     <h1>Screwdriver AWS Integration Lambda Demo!</h1>` +
-    `<p style='background-color:tomato;font-size:30px'>This app is deployed using Screwdriver and AWS ${executor}.</p>
+    `<p style='background-color:#ffa700;font-size:30px'>This app is deployed using Screwdriver and AWS ${executor}.</p>
 </body>
 </html>
     `
