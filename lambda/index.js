@@ -1,76 +1,71 @@
 'use strict'
-const api = require('./server');
-let server;
-
-const transformUrlPath = (event, options) => {
-    let url = event.path;
-  
-    // extract the stage from the url
-    if (options.stripStage) {
-      const currentStage = event.requestContext ? event.requestContext.stage : null;
-      if (currentStage) {
-        url = url.replace(`${currentStage}/`, '');
-      }
-    }
-  
-    // append qs params
-    const params = event.queryStringParameters;
-    if (params) {
-      const qs = Object.keys(params).map(key => `${key}=${params[key]}`);
-      if (qs.length > 0) {
-        url += `?${qs.join('&')}`;
-      }
-    }
-  
-    return url;
-  };
-
-const transformRequest = (event, options) => {
-    const opt = {
-      path: {
-        stripStage: false,
-      },
-      ...options,
-    };
-  
-    return {
-      method: event.httpMethod,
-      url: transformUrlPath(event, opt.path),
-      payload: event.body,
-      headers: event.headers,
-      validate: false
-    };
-  };
-  
-  const transformResponse = response => {
-    const { statusCode } = response;
-  
-    const headers = {
-      ...response.headers,
-    };
-  
-    delete headers['content-encoding'];
-    delete headers['transfer-encoding'];
-  
-    let body = response.result;
-    if (typeof response.result !== 'string') {
-      body = JSON.stringify(body);
-    }
-  
-    return {
-      statusCode,
-      headers,
-      body
-    };
-  };
-
 exports.handler = async (event) => {
-    const request = transformRequest(event);
-    if (!server) {
-        server = await api.start();
-    }
-
-    const response = await server.inject(request);
-
-    return transformResponse(response);
+    const executor = process.env.EXECUTOR;
+    const html = `<html>
+<head>
+        <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+        <meta content="utf-8" http-equiv="encoding">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Screwdriver AWS Integration Lambda Demo!</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+    </head>
+    
+    <body>
+        <section class="section">
+            <div class="container">
+                <div class="intro">
+                    <h1 class="title">Screwdriver AWS Integration</h1>
+                    <p class="subtitle">
+                        Welcome to the <strong class="has-text-primary">Demo</strong>!
+                        This app is deployed using Screwdriver and AWS ${executor}
+                    </p>
+                </div>
+                <hr>
+                <section class="columns">
+                    <div class="column is-two-fifths">
+                        <h4 class="title is-3">
+                            Onboarding Form
+                        </h4>
+                        <form id="addContactForm">
+                            <div class="field">
+                                <label class="label">Account Id</label>
+                                <div class="control">
+                                    <input name="name" required class="input" type="text" placeholder="e.g 111111111111">
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">Region</label>
+                                <div class="control">
+                                    <input name="phone" required class="input" type="text" placeholder="e.g. us-west-2">
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">Subnets</label>
+                                <div class="control">
+                                    <input name="phone" required class="input" type="text" placeholder="e.g. subnet-xxxxx">
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="control">
+                                    <button class="button is-primary">Save</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </section>
+            </div>
+        </section>
+    </body>
+    </html>
+    `
+    const response = {
+        statusCode: 200,
+        statusDescription: "200 OK",
+        isBase64Encoded: false,
+        headers: {
+            "Content-Type": "text/html"
+        },
+        body: html
+    };
+    return response;
 };
