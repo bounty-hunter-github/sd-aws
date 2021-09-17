@@ -5,7 +5,7 @@ const Hapi = require('@hapi/hapi');
 const Inert = require('@hapi/inert')
 const Vision = require('@hapi/vision');
 
-const api = async () => {
+const start = async () => {
 
     const server = Hapi.server({
         port: process.env.port || 4000,
@@ -63,4 +63,4 @@ const api = async () => {
 };
 
 //api()
-module.exports = api
+module.exports.start = start
