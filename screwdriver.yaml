@@ -7,8 +7,7 @@ jobs:
       screwdriver.cd/executor: "sls"
     environment:
       RESOURCE_REFIX: sd-aws-intg
-      EXECUTOR: "Code Build"
-      BG_COLOR: "powderblue"
+      EXECUTOR: "CodeBuild"
     secrets:
       - PUBLIC_SUBNETS
       - SECURITY_GROUP_ID
@@ -54,7 +53,6 @@ jobs:
     environment:
       RESOURCE_REFIX: sd-eks-intg
       EXECUTOR: "Elastic Kubernetes Service"
-      BG_COLOR: "powder-blue"
     secrets:
       - PUBLIC_SUBNETS
       - SECURITY_GROUP_ID

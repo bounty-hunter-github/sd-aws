@@ -15,5 +15,12 @@
   "bugs": {
     "url": "https://github.com/pritamstyz4ever/sd-aws/issues"
   },
-  "homepage": "https://github.com/pritamstyz4ever/sd-aws#readme"
+  "homepage": "https://github.com/pritamstyz4ever/sd-aws#readme",
+  "dependencies": {
+    "@hapi/hapi": "^20.1.5",
+    "@hapi/hoek": "^9.2.0",
+    "@hapi/inert": "^6.0.4",
+    "@hapi/vision": "^6.1.0",
+    "handlebars": "^4.7.7"
+  }
 }
