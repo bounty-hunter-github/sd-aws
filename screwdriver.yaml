@@ -94,8 +94,8 @@ jobs:
           yum install -y yum-utils curl zip unzip
           curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
           unzip awscliv2.zip
-          ./aws/install
-          aws version
+          ./aws/install -i /usr/local/aws-cli -b /usr/local/bin
+          /usr/local/bin/aws --version
           curl -qL -o packer.zip https://releases.hashicorp.com/packer/0.12.3/packer_0.12.3_linux_amd64.zip && unzip packer.zip
           echo "Installing jq..."
           curl -qL -o jq https://stedolan.github.io/jq/download/linux64/jq && chmod +x ./jq
@@ -114,7 +114,7 @@ jobs:
   dind:
     requires: [~pr, ~commit]
     annotations:
-      screwdriver.cd/executor: "sls"
+      screwdriver.cd/executor: "eks"
     image: 551964337302.dkr.ecr.us-west-2.amazonaws.com/sd-hub:ubuntu
     steps:
       - install: |
