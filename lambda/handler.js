@@ -36,9 +36,8 @@ const transformRequest = (event, options) => {
   return {
     method: event.httpMethod,
     url: transformUrlPath(event, opt.path),
-    payload: event.body,
-    headers: event.headers,
-    validate: false
+    payload: event.isBase64Encoded ? Buffer.from(event.body, 'base64') : event.bodyevent.body,
+    headers: event.headers
   };
 };
 
@@ -50,20 +49,21 @@ const transformResponse = response => {
     "Content-Type": "text/html; charset=utf-8"
   };
 
+  if (headers['transfer-encoding'] === 'chunked') {
+    delete headers['transfer-encoding']
+  }
   // delete headers['content-encoding'];
   // delete headers['transfer-encoding'];
 
-  let body = response.result;
-  // if (typeof response.result !== 'string') {
-  //   body = JSON.stringify(body);
-  // }
+  const { 'content-type': type, 'content-encoding': encoding } = response.headers
+  const isBase64Encoded = Boolean(type && !type.match(/; *charset=/)) || Boolean(encoding && encoding !== 'identity')
 
   return {
     statusCode,
     statusDescription,
-    isBase64Encoded: false,
+    isBase64Encoded: isBase64Encoded,
     headers,
-    body
+    body: response.rawPayload().toString(this.isBase64Encoded() ? 'base64' : 'utf8')
   };
 };
 
@@ -76,7 +76,7 @@ exports.handler = async (event) => {
     server = await api.start();
   }
 
-  delete request.headers['accept-encoding'];
+  // delete request.headers['accept-encoding'];
 
   const response = await server.inject(request);
   console.log(response)

@@ -83,3 +83,46 @@ jobs:
           terraform init
       - plan: terraform plan -var-file=app.tfvars
       - deploy: terraform apply -auto-approve -var-file=app.tfvars
+
+  imageBuilder:
+    requires: [~pr, ~commit]
+    annotations:
+      screwdriver.cd/executor: "sls"
+    steps:
+      install:
+        - echo "Installing HashiCorp Packer..."
+        - curl -qL -o packer.zip https://releases.hashicorp.com/packer/0.12.3/packer_0.12.3_linux_amd64.zip && unzip packer.zip
+        - echo "Installing jq..."
+        - curl -qL -o jq https://stedolan.github.io/jq/download/linux64/jq && chmod +x ./jq
+        - echo "Validating amazon-linux_packer-template.json"
+        - ./packer validate amazon-linux_packer-template.json
+      build:
+        - echo "Configuring AWS credentials"
+        - curl -qL -o aws_credentials.json http://169.254.170.2/$AWS_CONTAINER_CREDENTIALS_RELATIVE_URI > aws_credentials.json
+        - aws configure set region $AWS_REGION
+        - aws configure set aws_access_key_id `./jq -r '.AccessKeyId' aws_credentials.json`
+        - aws configure set aws_secret_access_key `./jq -r '.SecretAccessKey' aws_credentials.json`
+        - aws configure set aws_session_token `./jq -r '.Token' aws_credentials.json`
+        - echo "Building HashiCorp Packer template, amazon-linux_packer-template.json"
+        - ./packer build amazon-linux_packer-template.json
+      post_build:
+        - echo "HashiCorp Packer build completed on `date`"
+  dind:
+    requires: [~pr, ~commit]
+    annotations:
+      screwdriver.cd/executor: "sls"
+    steps:
+      install:
+        - yum install sudo -y
+        - sudo yum install -y yum-utils curl
+        - curl -fsSL https://get.docker.com -o get-docker.sh
+        - sudo sh get-docker.sh
+      #- sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+      #- sudo yum install -y docker-ce docker-ce-cli containerd.io
+      pre_build:
+        - sudo systemctl start docker
+        - nohup /usr/local/bin/dockerd --host=unix:///var/run/docker.sock --host=tcp://127.0.0.1:2375 --storage-driver=overlay2 &
+        - timeout -t 15 sh -c "until docker info; do echo .; sleep 1; done"
+      build:
+        - docker pull docker.ouroath.com:4443/ylinux/ylinux7
+        - docker images
