@@ -114,8 +114,6 @@ jobs:
   
   dockerbuild:
     requires: [~pr, ~commit]
-    annotations:
-      screwdriver.cd/executor: "eks"
     image: 551964337302.dkr.ecr.us-west-2.amazonaws.com/sd-hub:ubuntu
     steps:
       - install: |
