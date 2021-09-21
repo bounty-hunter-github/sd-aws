@@ -10,7 +10,7 @@ exports.handler = async (event) => {
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
     </head>
     
-    <body>
+    <body style="background-color:#6001d2;">
         <section class="section">
             <div class="container">
                 <div class="intro">
