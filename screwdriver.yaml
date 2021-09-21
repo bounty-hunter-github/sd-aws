@@ -115,6 +115,8 @@ jobs:
   dockerbuild:
     requires: [~pr, ~commit]
     image: 551964337302.dkr.ecr.us-west-2.amazonaws.com/sd-hub:ubuntu
+    annotations:
+      screwdriver.cd/executor: "sls"
     steps:
       - install: |
           sudo apt-get update
