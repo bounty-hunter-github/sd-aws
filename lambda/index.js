@@ -10,14 +10,14 @@ exports.handler = async (event) => {
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
     </head>
     
-    <body style="background-color:#6001d2;">
+    <body style="background-color:#ffa700;">
         <section class="section">
             <div class="container">
                 <div class="intro">
                     <h1 class="title">Screwdriver AWS Integration</h1>
                     <p class="subtitle">
                         Welcome to the <strong class="has-text-primary">Demo</strong>!
-                        This app is deployed using Screwdriver and AWS ${executor}
+                        This app is deployed using <strong class="has-text-primary">Screwdriver and AWS ${executor}</strong>
                     </p>
                 </div>
                 <hr>
