@@ -1,16 +1,5 @@
-# provider:
-#     name: aws
-#     region: us-west-2
-#     accountId: 1111111111111
-#     vpc: # Optional VPC. But if you use VPC then both subproperties (securityGroupIds and subnetIds) are required
-#         vpcId: vpc-xxxxx
-#         securityGroupIds:
-#             - securityGroupId1
-#             - securityGroupId2
-#         subnetIds:
-#             - subnetId1
-#             - subnetId2
-#     role: arn:aws:iam::XXXXXX:role/role
+annotations:
+    screwdriver.cd/useDeployKey: true
 
 shared:
   image: 551964337302.dkr.ecr.us-west-2.amazonaws.com/sd-hub:centos7
