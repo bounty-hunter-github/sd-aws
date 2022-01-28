@@ -1,5 +1,5 @@
-annotations:
-    screwdriver.cd/useDeployKey: true
+# annotations:
+#     screwdriver.cd/useDeployKey: true
 
 shared:
   image: 551964337302.dkr.ecr.us-west-2.amazonaws.com/sd-hub:centos7
